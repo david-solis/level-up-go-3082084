@@ -1,8 +1,10 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"math/rand"
+	"os"
 	"time"
 )
 
@@ -10,12 +12,21 @@ const path = "entries.json"
 
 // raffleEntry is the struct we unmarshal raffle entries into
 type raffleEntry struct {
-	// TODO: Fill in definition
+	ID, NAME string
 }
 
 // importData reads the raffle entries from file and creates the entries slice.
 func importData() []raffleEntry {
-	panic("NOT IMPLEMENTED")
+	file, err := os.ReadFile(path)
+	if err != nil {
+		log.Fatal(err)
+	}
+	var data []raffleEntry
+	json.Unmarshal(file, &data)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return data
 }
 
 // getWinner returns a random winner from a slice of raffle entries.
